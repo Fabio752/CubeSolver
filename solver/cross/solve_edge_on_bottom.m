@@ -9,7 +9,7 @@ function [faces, setup_moves, setup_idx, cross_moves, cross_moves_idx] = ...
     target_position = [2 4 8 6];
     position = edge_idx(2);
 
-    %rotate top right amount
+    %rotate bottom right amount
     idx = find(target_position == position);
 
     while target_position(k) ~= position

@@ -7,21 +7,32 @@ function [cross_moves, cross_moves_idx] = build_cross(faces)
     for k = 1:4
 
         %find cross edge
-        edge_idx = find_edge(cross_edges(k, :), faces);
-
-        %if piece is on top
+        piece = cross_edges(k, :);
+        edge_idx = find_edge(piece, faces);
+        
+        
+        %if piece is on top -> bring to bottom
         if edge_idx(1) == 6
-            [faces, setup_moves, setup_idx, cross_moves, cross_moves_idx] = ...
-                solve_edge_on_top(faces, k, edge_idx, cross_moves, cross_moves_idx);
+            [faces, cross_moves, cross_moves_idx] = ...
+                solve_edge_on_top(faces, edge_idx, cross_moves, cross_moves_idx);
+                    
+            %find edge back
+            edge_idx = find_edge(piece, faces);
+        end 
+
+
+        % if is on side
+        if edge_idx(1) < 5
+           [faces, setup_moves, setup_idx, cross_moves, cross_moves_idx] = ...
+                solve_edge_on_side(faces, piece, cross_moves, cross_moves_idx);
+
         %if is on bottom
         elseif edge_idx(1) == 5
+            
             [faces, setup_moves, setup_idx, cross_moves, cross_moves_idx] = ... 
                 solve_edge_on_bottom(faces, k, edge_idx, cross_moves, cross_moves_idx);
-        % if is on sides
-        else
-           [faces, setup_moves, setup_idx, cross_moves, cross_moves_idx] = ...
-                solve_edge_on_side(faces, k, edge_idx, cross_moves, cross_moves_idx);
         end
+        
         %undo setup moves
         for i = (setup_idx-1):-1:1
             move = setup_moves{i}; 
