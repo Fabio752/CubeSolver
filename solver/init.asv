@@ -70,7 +70,7 @@ function faces = init()
          pause;
     end
     
-% THIS IS FOR NON IMAGE ACQUISITION SOLVES     
+% THIS IS FOR SE     
 %     f1 = ones(1,9);
 %     f2 = 2 * ones(1,9);
 %     f3 = 3 * ones(1,9);

@@ -10,7 +10,7 @@ function faces = execute_algorithm(faces, moves, to_draw)
             faces = rotate_side(faces, move);
         end
         if to_draw
-            draw_move(hl, hm, hr, move, 30);
+            draw_move(hl, hm, hr, move, 35);
         end       
     end
 end

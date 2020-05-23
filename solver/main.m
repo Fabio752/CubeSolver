@@ -6,11 +6,12 @@ function [outcome, number_moves] = main()
     % more efficient moves (fix optimisation function)
     % image acquisition
     
+    DRAW_BOOL = 1;
     faces = init();
     number_moves = 0;
-
+    
     draw(faces);
-
+    pause(0.2);
     %% cross
     
     %calculate cross moves
@@ -19,7 +20,7 @@ function [outcome, number_moves] = main()
     %optimise cross moves
     cross_moves = optimise_algorithm(cross_moves);
     %make and display cross moves
-    faces = execute_algorithm(faces, cross_moves, 1);
+    faces = execute_algorithm(faces, cross_moves, DRAW_BOOL);
 
     out = testing(faces, 'cross');
     if ~out
@@ -30,7 +31,7 @@ function [outcome, number_moves] = main()
     %% f2l
     %from now on, face 5 <--> 6 and 2 <--> 4
     draw(faces);
-    pause(0.5)
+    pause(0.2)
     
     %calculate first two layers moves
     [f2l_moves, f2l_moves_idx] = build_f2l(faces);
@@ -38,7 +39,7 @@ function [outcome, number_moves] = main()
     %optimise F2L moves
     f2l_moves = optimise_algorithm(f2l_moves);
     %make and display f2l moves
-    faces = execute_algorithm(faces, f2l_moves, 1);
+    faces = execute_algorithm(faces, f2l_moves, DRAW_BOOL);
 
     out = testing(faces, 'f2l');
     if ~out
@@ -48,14 +49,14 @@ function [outcome, number_moves] = main()
 
     %% oll
     draw(faces);
-    pause(0.5);
+    pause(0.2);
 
     %calculate orientation last layer moves
     oll_moves = build_oll(faces);
     %optimise OLL moves
     %oll_moves = optimise_algorithm(oll_moves);
     %make and display OLL moves
-    faces = execute_algorithm(faces, oll_moves(2:end), 0);
+    faces = execute_algorithm(faces, oll_moves(2:end), DRAW_BOOL);
     
     out = testing(faces, 'oll');
     if ~out
@@ -65,13 +66,13 @@ function [outcome, number_moves] = main()
 
     %% pll
     draw(faces);
-    pause(0.5)
+    pause(0.2)
     %calculate permutation last layer moves
     [pll_moves] = build_pll(faces);
     %optimise PLL moves
     %pll_moves = optimise_algorithm(pll_moves);
     %make and display PLL moves
-    faces = execute_algorithm(faces, pll_moves(2:end), 0);
+    faces = execute_algorithm(faces, pll_moves(2:end), DRAW_BOOL);
 
     out = testing(faces, 'pll');
     if ~out
@@ -81,10 +82,12 @@ function [outcome, number_moves] = main()
 
     %% final turns
     draw(faces);
-    pause(0.5);
+    pause(0.2);
     
-    faces = final_turns(faces);
+    faces = final_turns(faces, DRAW_BOOL);
     draw(faces);
+    pause(0.2);
+
     % outcome of the test
     outcome = 'success';
     number_moves = length(cross_moves) + f2l_moves_idx - 1 + length(oll_moves) + length(pll_moves);
